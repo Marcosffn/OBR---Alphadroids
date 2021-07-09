@@ -13,19 +13,19 @@ void Main()
 
 public class Robo
 {
-    public float SensorLuz1;
-    public float SensorLuz2;
-    public float SensorLuz3;
-    public float SensorLuz4;
-    public float SensorLuz5;
-    public float SensorLuz6;
+    float SensorLuz1;
+    float SensorLuz2;
+    float SensorLuz3;
+    float SensorLuz4;
+    float SensorLuz5;
+    float SensorLuz6;
 
-    public String SensorCor1;
-    public String SensorCor2;
-    public String SensorCor3;
-    public String SensorCor4;
-    public String SensorCor5;
-    public String SensorCor6;
+    String SensorCor1;
+    String SensorCor2;
+    String SensorCor3;
+    String SensorCor4;
+    String SensorCor5;
+    String SensorCor6;
 
     public void RealizarLeituras()
     {
