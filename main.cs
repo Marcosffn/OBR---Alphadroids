@@ -5,9 +5,9 @@ void Main()
     {
         Robo.RealizarLeituras();
         Robo.PrintarLeituras();
-        bc.MoveFrontal(100, 100);
+        Robo.SeguirLinhaLuz(200);
+
     }
-    
 
 }
 
@@ -26,6 +26,63 @@ public class Robo
     String sensorCor4;
     String sensorCor5;
     String sensorCor6;
+
+    public void SeguirLinhaLuz(int forca)
+    {
+        bc.MoveFrontal(forca, forca);
+        if (sensorLuz2 <= 50 || sensorLuz2 <= 50 && sensorLuz3 <= 50 || sensorLuz2 <= 50 && sensorLuz1 <= 50)
+        {
+            bc.MoveFrontal(forca, forca);
+            bc.MoveFrontal(-800, 800);
+        }
+        else if (sensorLuz4 <= 50 || sensorLuz4 <=50 && sensorLuz3 <= 50 || sensorLuz4 <= 50 && sensorLuz5 <= 50)
+        {
+            bc.MoveFrontal(forca, forca);
+            bc.MoveFrontal(800, -800);
+        }
+        else if (sensorLuz3 <= 50)
+        {
+            bc.MoveFrontal(forca, forca);
+        }
+        else if (sensorLuz4 <= 50 && sensorLuz3 <= 50 && sensorLuz5 <= 50 || sensorLuz5 <= 50 || sensorLuz5 <= 50 && sensorLuz3 <= 50)
+        {
+            // Não está funcionando
+            Curva90(1000, "E");
+        }
+        else if (sensorLuz2 <= 50 && sensorLuz3 <= 50 && sensorLuz1 <= 50 || sensorLuz1 <= 50 || sensorLuz1 <= 50 && sensorLuz3 <= 50)
+        {
+            // Não está funcionando
+            Curva90(1000, "D");
+        }
+        else
+        {
+            bc.MoveFrontal(forca, forca);
+        }
+            
+    }
+
+    public void Curva90(int forca, string lado)
+    {
+        // Função para usar nas curvas de 90 com ou sem a fita verde
+        MoverPorTempo(0.255, forca);
+        if (lado == "E")
+        {
+            bc.MoveFrontalAngles(forca, -90);
+        }
+        else if (lado == "D")
+        {
+            bc.MoveFrontalAngles(forca, 90);
+        }
+
+    }
+    public void MoverPorTempo(double tempo, int forca)
+    {
+        // Função para mover pelo tempo e força especificados
+        bc.MoveFrontal(forca, forca);
+        double ms = 1000;
+        var t = ms * tempo;
+        bc.Wait(System.Convert.ToInt32(t));
+    }
 
     public void RealizarLeituras()
     {
@@ -48,24 +105,24 @@ public class Robo
     {
         if (tipo == "Cor")
         {
-            bc.PrintConsole(0, $"sensor 1: {this.sensorCor1}, sensor 2: {this.sensorCor2}");
-            bc.PrintConsole(1, $"sensor 3: {this.sensorCor3}, sensor 4: {this.sensorCor4}");
-            bc.PrintConsole(2, $"sensor 5: {this.sensorCor5}, sensor 6: {this.sensorCor6}");
+            bc.PrintConsole(0, $"Sensor 1: {this.sensorCor1}, Sensor 2: {this.sensorCor2}");
+            bc.PrintConsole(1, $"Sensor 3: {this.sensorCor3}, Sensor 4: {this.sensorCor4}");
+            bc.PrintConsole(2, $"Sensor 5: {this.sensorCor5}, Sensor 6: {this.sensorCor6}");
         }
         else if (tipo == "Luz")
         {
-            bc.PrintConsole(0, $"sensor 1: {this.sensorLuz1.ToString("00.00")}, sensor 2: {this.sensorLuz2.ToString("00.00")}");
-            bc.PrintConsole(1, $"sensor 3: {this.sensorLuz3.ToString("00.00")}, sensor 4: {this.sensorLuz4.ToString("00.00")}");
-            bc.PrintConsole(2, $"sensor 5: {this.sensorLuz5.ToString("00.00")}, sensor 6: {this.sensorLuz6.ToString("00.00")}");
+            bc.PrintConsole(0, $"Sensor 1: {this.sensorLuz1.ToString("00.00")}, Sensor 2: {this.sensorLuz2.ToString("00.00")}");
+            bc.PrintConsole(1, $"Sensor 3: {this.sensorLuz3.ToString("00.00")}, Sensor 4: {this.sensorLuz4.ToString("00.00")}");
+            bc.PrintConsole(2, $"Sensor 5: {this.sensorLuz5.ToString("00.00")}, Sensor 6: {this.sensorLuz6.ToString("00.00")}");
         }
         else if (tipo == null)
         {
-            bc.PrintConsole(0, $"sensor 1: {this.sensorLuz1.ToString("00.00")}, sensor 2: {this.sensorLuz2.ToString("00.00")}"
-            + " -- " + $"sensor 1: {this.sensorCor1}, sensor 2: {this.sensorCor2}");
-            bc.PrintConsole(1, $"sensor 3: {this.sensorLuz3.ToString("00.00")}, sensor 4: {this.sensorLuz4.ToString("00.00")}"
-            + " -- " + $"sensor 3: {this.sensorCor3}, sensor 4: {this.sensorCor4}");
-            bc.PrintConsole(2, $"sensor 5: {this.sensorLuz5.ToString("00.00")}, sensor 6: {this.sensorLuz6.ToString("00.00")}"
-            + " -- " + $"sensor 5: {this.sensorCor5}, sensor 6: {this.sensorCor6}");
+            bc.PrintConsole(0, $"Sensor 1: {this.sensorLuz1.ToString("00.00")}, Sensor 2: {this.sensorLuz2.ToString("00.00")}"
+            + " -- " + $"Sensor 1: {this.sensorCor1}, Sensor 2: {this.sensorCor2}");
+            bc.PrintConsole(1, $"Sensor 3: {this.sensorLuz3.ToString("00.00")}, Sensor 4: {this.sensorLuz4.ToString("00.00")}"
+            + " -- " + $"Sensor 3: {this.sensorCor3}, Sensor 4: {this.sensorCor4}");
+            bc.PrintConsole(2, $"Sensor 5: {this.sensorLuz5.ToString("00.00")}, Sensor 6: {this.sensorLuz6.ToString("00.00")}"
+            + " -- " + $"Sensor 5: {this.sensorCor5}, Sensor 6: {this.sensorCor6}");
         }
 
     }
