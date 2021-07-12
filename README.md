@@ -4,6 +4,7 @@
 - [x] Seguidor de linha
 - [x] Curva de 90 graus
 - [ ] Virar na fita verde
+- [ ] Passar por becos sem saída
 - [ ] Desviar do obstáculo
 
 ## Parte de cima - área de resgate
