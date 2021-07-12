@@ -5,7 +5,19 @@ void Main()
     {
         Robo.RealizarLeituras();
         Robo.PrintarLeituras();
-        Robo.SeguirLinhaLuz(200);
+        Robo.SeguirLinhaLuz(125);
+        if (Robo.sensorLuz1 <= 50 && Robo.sensorLuz2 <= 50 && Robo.sensorLuz3 <= 50)
+        {
+            Robo.Virar90(200, "D");
+        }
+        else if (Robo.sensorLuz5 <= 50 && Robo.sensorLuz4 <= 50 && Robo.sensorLuz3 <= 50)
+        {
+            Robo.Virar90(200, "E");
+        }
+        else
+        {
+            Robo.SeguirLinhaLuz(125);
+        }
 
     }
 
@@ -13,12 +25,12 @@ void Main()
 
 public class Robo
 {
-    float sensorLuz1;
-    float sensorLuz2;
-    float sensorLuz3;
-    float sensorLuz4;
-    float sensorLuz5;
-    float sensorLuz6;
+    public float sensorLuz1;
+    public float sensorLuz2;
+    public float sensorLuz3;
+    public float sensorLuz4;
+    public float sensorLuz5;
+    public float sensorLuz6;
 
     String sensorCor1;
     String sensorCor2;
@@ -44,16 +56,6 @@ public class Robo
         {
             bc.MoveFrontal(forca, forca);
         }
-        else if (sensorLuz4 <= 50 && sensorLuz3 <= 50 && sensorLuz5 <= 50 || sensorLuz5 <= 50 || sensorLuz5 <= 50 && sensorLuz3 <= 50)
-        {
-            // Não está funcionando
-            Curva90(1000, "E");
-        }
-        else if (sensorLuz2 <= 50 && sensorLuz3 <= 50 && sensorLuz1 <= 50 || sensorLuz1 <= 50 || sensorLuz1 <= 50 && sensorLuz3 <= 50)
-        {
-            // Não está funcionando
-            Curva90(1000, "D");
-        }
         else
         {
             bc.MoveFrontal(forca, forca);
@@ -61,10 +63,11 @@ public class Robo
             
     }
 
-    public void Curva90(int forca, string lado)
+    public void Virar90(int forca, string lado)
     {
         // Função para usar nas curvas de 90 com ou sem a fita verde
-        MoverPorTempo(0.255, forca);
+        MoverPorTempo(0.452, forca);
+
         if (lado == "E")
         {
             bc.MoveFrontalAngles(forca, -90);
