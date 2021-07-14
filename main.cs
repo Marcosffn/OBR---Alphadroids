@@ -5,22 +5,18 @@ void Main()
     {
         Robo.RealizarLeituras();
         Robo.PrintarLeituras();
-        Robo.SeguirLinhaLuz(125);
-        if (Robo.sensorLuz1 <= 50 && Robo.sensorLuz2 <= 50 && Robo.sensorLuz3 <= 50)
+        if(Robo.sensorCor2 == "VERDE")
         {
-            Robo.Virar90(200, "D");
+            Robo.Virar90(400, "D");
         }
-        else if (Robo.sensorLuz5 <= 50 && Robo.sensorLuz4 <= 50 && Robo.sensorLuz3 <= 50)
+        else if(Robo.sensorCor4 == "VERDE")
         {
-            Robo.Virar90(200, "E");
-        }
-        else
+            Robo.Virar90(400, "E");
+        }else
         {
             Robo.SeguirLinhaLuz(125);
         }
-
     }
-
 }
 
 public class Robo
@@ -32,29 +28,26 @@ public class Robo
     public float sensorLuz5;
     public float sensorLuz6;
 
-    String sensorCor1;
-    String sensorCor2;
-    String sensorCor3;
-    String sensorCor4;
-    String sensorCor5;
-    String sensorCor6;
+    public String  sensorCor1;
+    public String sensorCor2;
+    public String sensorCor3;
+    public String sensorCor4;
+    public String sensorCor5;
+    public String sensorCor6;
 
     public void SeguirLinhaLuz(int forca)
     {
-        bc.MoveFrontal(forca, forca);
-        if (sensorLuz2 <= 50 || sensorLuz2 <= 50 && sensorLuz3 <= 50 || sensorLuz2 <= 50 && sensorLuz1 <= 50)
+        if (sensorLuz1 >= 50 && sensorLuz5 >= 50)
         {
             bc.MoveFrontal(forca, forca);
-            bc.MoveFrontal(-800, 800);
         }
-        else if (sensorLuz4 <= 50 || sensorLuz4 <=50 && sensorLuz3 <= 50 || sensorLuz4 <= 50 && sensorLuz5 <= 50)
+        else if (sensorLuz1 <= 50 && sensorLuz5 >= 50)
         {
-            bc.MoveFrontal(forca, forca);
-            bc.MoveFrontal(800, -800);
+            bc.MoveFrontal(-forca*10, forca*10);
         }
-        else if (sensorLuz3 <= 50)
+        else if (sensorLuz1 >= 50 && sensorLuz5 <= 50)
         {
-            bc.MoveFrontal(forca, forca);
+            bc.MoveFrontal(forca*10, -forca*10);
         }
         else
         {
@@ -66,7 +59,7 @@ public class Robo
     public void Virar90(int forca, string lado)
     {
         // Função para usar nas curvas de 90 com ou sem a fita verde
-        MoverPorTempo(0.452, forca);
+        MoverPorTempo(0.67, forca);
 
         if (lado == "E")
         {
@@ -103,7 +96,6 @@ public class Robo
         this.sensorCor5 = bc.ReturnColor(4);
         this.sensorCor6 = bc.ReturnColor(5);
     }
-
     public void PrintarLeituras(string tipo=null)
     {
         if (tipo == "Cor")
@@ -127,6 +119,5 @@ public class Robo
             bc.PrintConsole(2, $"Sensor 5: {this.sensorLuz5.ToString("00.00")}, Sensor 6: {this.sensorLuz6.ToString("00.00")}"
             + " -- " + $"Sensor 5: {this.sensorCor5}, Sensor 6: {this.sensorCor6}");
         }
-
     }
 }
