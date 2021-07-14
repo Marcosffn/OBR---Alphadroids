@@ -11,7 +11,7 @@ void Main()
 public class Robo
 {
     public int anguloBase = 15;
-    public int multiplicador=0;
+    public int multiplicador = 0;
     public float sensorLuz1;
     public float sensorLuz2;
     public float sensorLuz3;
@@ -48,25 +48,25 @@ public class Robo
         {
             if (multiplicador==0)
             {
-                if(direçãoAngulo >= 359)
-                {
-                    bc.MoveFrontal(forca*10, -forca*10);
-                } 
-                    else if(direçãoAngulo >= (anguloBase*multiplicador)++)
+                if(direcaoAngulo >= 359)
                 {
                     bc.MoveFrontal(-forca*10, forca*10);
+                } 
+                    else if(direcaoAngulo >= (anguloBase*multiplicador) + 1)
+                {
+                    bc.MoveFrontal(forca*10, -forca*10);
                 }
                 else
                 {
                 bc.MoveFrontal(forca, forca);
                 }
-            } else if(direçãoAngulo <= (anguloBase*multiplicador)--)
-            {
-                bc.MoveFrontal(forca*10, -forca*10);
-            } 
-            else if(direçãoAngulo >= (anguloBase*multiplicador)++)
+            } else if(direcaoAngulo <= (anguloBase*multiplicador)- 1)
             {
                 bc.MoveFrontal(-forca*10, forca*10);
+            } 
+            else if(direcaoAngulo >= (anguloBase*multiplicador)+ 1)
+            {
+                bc.MoveFrontal(forca*10, -forca*10);
             }
             else
             {
