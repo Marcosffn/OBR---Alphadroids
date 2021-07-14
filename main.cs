@@ -4,69 +4,154 @@ void Main()
     while (true)
     {
         Robo.RealizarLeituras();
-        Robo.PrintarLeituras();
-        bc.MoveFrontal(100, 100);
+        Robo.PrintarLeituras("luz");
+        Robo.run();
     }
-    
-
 }
-
 public class Robo
 {
-    public float SensorLuz1;
-    public float SensorLuz2;
-    public float SensorLuz3;
-    public float SensorLuz4;
-    public float SensorLuz5;
-    public float SensorLuz6;
+    public int anguloBase = 15;
+    public int multiplicador=0;
+    public float sensorLuz1;
+    public float sensorLuz2;
+    public float sensorLuz3;
+    public float sensorLuz4;
+    public float sensorLuz5;
+    public float sensorLuz6;
 
-    public String SensorCor1;
-    public String SensorCor2;
-    public String SensorCor3;
-    public String SensorCor4;
-    public String SensorCor5;
-    public String SensorCor6;
+    public float direcaoAngulo;
+
+    public String  sensorCor1;
+    public String sensorCor2;
+    public String sensorCor3;
+    public String sensorCor4;
+    public String sensorCor5;
+    public String sensorCor6;
+
+    public void run()
+    {
+        if(this.sensorCor2 == "VERDE")
+        {
+            this.Virar90(400, "D");
+        }
+        else if(this.sensorCor4 == "VERDE")
+        {
+            this.Virar90(400, "E");
+        }else
+        {
+            this.SeguirLinhaLuz(125);
+        }
+    }
+    public void SeguirLinhaLuz(int forca)
+    {
+        if (sensorLuz1 >= 50 && sensorLuz5 >= 50)
+        {
+            if (multiplicador==0)
+            {
+                if(direçãoAngulo >= 359)
+                {
+                    bc.MoveFrontal(forca*10, -forca*10);
+                } 
+                    else if(direçãoAngulo >= (anguloBase*multiplicador)++)
+                {
+                    bc.MoveFrontal(-forca*10, forca*10);
+                }
+                else
+                {
+                bc.MoveFrontal(forca, forca);
+                }
+            } else if(direçãoAngulo <= (anguloBase*multiplicador)--)
+            {
+                bc.MoveFrontal(forca*10, -forca*10);
+            } 
+            else if(direçãoAngulo >= (anguloBase*multiplicador)++)
+            {
+                bc.MoveFrontal(-forca*10, forca*10);
+            }
+            else
+            {
+            bc.MoveFrontal(forca, forca);
+            }
+        }
+        else if (sensorLuz1 <= 50 && sensorLuz5 >= 50)
+        {
+            multiplicador++;
+        }
+        else if (sensorLuz1 >= 50 && sensorLuz5 <= 50)
+        {
+            multiplicador--;
+        }
+        else
+        {
+            bc.MoveFrontal(forca, forca);
+        }
+            
+    }
+
+    public void Virar90(int forca, string lado)
+    {
+        // Função para usar nas curvas de 90 com ou sem a fita verde
+        MoverPorTempo(0.67, forca);
+
+        if (lado == "E")
+        {
+            bc.MoveFrontalAngles(forca, -90);
+        }
+        else if (lado == "D")
+        {
+            bc.MoveFrontalAngles(forca, 90);
+        }
+
+    }
+    public void MoverPorTempo(double tempo, int forca)
+    {
+        // Função para mover pelo tempo e força especificados
+        bc.MoveFrontal(forca, forca);
+        double ms = 1000;
+        var t = ms * tempo;
+        bc.Wait(System.Convert.ToInt32(t));
+    }
 
     public void RealizarLeituras()
     {
-        this.SensorLuz1 = bc.Lightness(0);
-        this.SensorLuz2 = bc.Lightness(1);
-        this.SensorLuz3 = bc.Lightness(2);
-        this.SensorLuz4 = bc.Lightness(3);
-        this.SensorLuz5 = bc.Lightness(4);
-        this.SensorLuz6 = bc.Lightness(5);
+        this.sensorLuz1 = bc.Lightness(0);
+        this.sensorLuz2 = bc.Lightness(1);
+        this.sensorLuz3 = bc.Lightness(2);
+        this.sensorLuz4 = bc.Lightness(3);
+        this.sensorLuz5 = bc.Lightness(4);
+        this.sensorLuz6 = bc.Lightness(5);
 
-        this.SensorCor1 = bc.ReturnColor(0);
-        this.SensorCor2 = bc.ReturnColor(1);
-        this.SensorCor3 = bc.ReturnColor(2);
-        this.SensorCor4 = bc.ReturnColor(3);
-        this.SensorCor5 = bc.ReturnColor(4);
-        this.SensorCor6 = bc.ReturnColor(5);
+        this.sensorCor1 = bc.ReturnColor(0);
+        this.sensorCor2 = bc.ReturnColor(1);
+        this.sensorCor3 = bc.ReturnColor(2);
+        this.sensorCor4 = bc.ReturnColor(3);
+        this.sensorCor5 = bc.ReturnColor(4);
+        this.sensorCor6 = bc.ReturnColor(5);
+
+        this.direcaoAngulo = bc.Compass();
     }
-
     public void PrintarLeituras(string tipo=null)
     {
         if (tipo == "Cor")
         {
-            bc.PrintConsole(0, $"Sensor 1: {this.SensorCor1}, Sensor 2: {this.SensorCor2}");
-            bc.PrintConsole(1, $"Sensor 3: {this.SensorCor3}, Sensor 4: {this.SensorCor4}");
-            bc.PrintConsole(2, $"Sensor 5: {this.SensorCor5}, Sensor 6: {this.SensorCor6}");
+            bc.PrintConsole(0, $"Sensor 1: {this.sensorCor1}, Sensor 2: {this.sensorCor2}");
+            bc.PrintConsole(1, $"Sensor 3: {this.sensorCor3}, Sensor 4: {this.sensorCor4}");
+            bc.PrintConsole(2, $"Sensor 5: {this.sensorCor5}, Sensor 6: {this.sensorCor6}");
         }
         else if (tipo == "Luz")
         {
-            bc.PrintConsole(0, $"Sensor 1: {this.SensorLuz1.ToString("00.00")}, Sensor 2: {this.SensorLuz2.ToString("00.00")}");
-            bc.PrintConsole(1, $"Sensor 3: {this.SensorLuz3.ToString("00.00")}, Sensor 4: {this.SensorLuz4.ToString("00.00")}");
-            bc.PrintConsole(2, $"Sensor 5: {this.SensorLuz5.ToString("00.00")}, Sensor 6: {this.SensorLuz6.ToString("00.00")}");
+            bc.PrintConsole(0, $"Sensor angulo: {this.direcaoAngulo}");
+            bc.PrintConsole(1, $"Sensor 3: {this.sensorLuz3.ToString("00.00")}, Sensor 4: {this.sensorLuz4.ToString("00.00")}");
+            bc.PrintConsole(2, $"Sensor 5: {this.sensorLuz5.ToString("00.00")}, Sensor 6: {this.sensorLuz6.ToString("00.00")}");
         }
         else if (tipo == null)
         {
-            bc.PrintConsole(0, $"Sensor 1: {this.SensorLuz1.ToString("00.00")}, Sensor 2: {this.SensorLuz2.ToString("00.00")}"
-            + " -- " + $"Sensor 1: {this.SensorCor1}, Sensor 2: {this.SensorCor2}");
-            bc.PrintConsole(1, $"Sensor 3: {this.SensorLuz3.ToString("00.00")}, Sensor 4: {this.SensorLuz4.ToString("00.00")}"
-            + " -- " + $"Sensor 3: {this.SensorCor3}, Sensor 4: {this.SensorCor4}");
-            bc.PrintConsole(2, $"Sensor 5: {this.SensorLuz5.ToString("00.00")}, Sensor 6: {this.SensorLuz6.ToString("00.00")}"
-            + " -- " + $"Sensor 5: {this.SensorCor5}, Sensor 6: {this.SensorCor6}");
+            bc.PrintConsole(0, $"Sensor 1: {this.sensorLuz1.ToString("00.00")}, Sensor 2: {this.sensorLuz2.ToString("00.00")}"
+            + " -- " + $"Sensor 1: {this.sensorCor1}, Sensor 2: {this.sensorCor2}");
+            bc.PrintConsole(1, $"Sensor 3: {this.sensorLuz3.ToString("00.00")}, Sensor 4: {this.sensorLuz4.ToString("00.00")}"
+            + " -- " + $"Sensor 3: {this.sensorCor3}, Sensor 4: {this.sensorCor4}");
+            bc.PrintConsole(2, $"Sensor 5: {this.sensorLuz5.ToString("00.00")}, Sensor 6: {this.sensorLuz6.ToString("00.00")}"
+            + " -- " + $"Sensor 5: {this.sensorCor5}, Sensor 6: {this.sensorCor6}");
         }
-
     }
 }
