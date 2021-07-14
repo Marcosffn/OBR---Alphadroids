@@ -4,8 +4,10 @@
 - [x] Seguidor de linha
 - [x] Curva de 90 graus
 - [ ] Virar na fita verde
+- [ ] Passar por encruzilhada (quando todos os sensores leem preto)
 - [ ] Passar por becos sem saída
 - [ ] Desviar do obstáculo
+
 
 ## Parte de cima - área de resgate
 Ainda não sei como fazer essa parte.
