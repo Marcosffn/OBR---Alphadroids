@@ -10,7 +10,8 @@ void Main()
 }
 public class Robo
 {
-    public int anguloBase = 15;
+    static int anguloBase = 10;
+    public int anguloMaximo = (360 / anguloBase) - 1;
     public int multiplicador = 0;
     public float sensorLuz1;
     public float sensorLuz2;
@@ -30,30 +31,31 @@ public class Robo
 
     public void run()
     {
-        if(this.sensorCor2 == "VERDE")
+        if(this.sensorCor2 == "VERDE" || sensorLuz1 <= 10 && sensorLuz2 <= 10 && sensorLuz3 <= 10)
         {
+            
             this.Virar90(400, "D");
-            if(multiplicador >= 18)
+            if(multiplicador >= 360/anguloBase - (90/anguloBase) + 1)
             {
-                multiplicador = multiplicador-18;
+                multiplicador = multiplicador - (anguloMaximo - (90/anguloBase) + 1);
             } else
             {
-                multiplicador = multiplicador+6;
+                multiplicador = multiplicador + (90/anguloBase);
             }
         }
-        else if(this.sensorCor4 == "VERDE")
+        else if(this.sensorCor4 == "VERDE" || sensorLuz4 <= 10 && sensorLuz5 <= 10 && sensorLuz3 <= 10)
         {
             this.Virar90(400, "E");
-            if(multiplicador <= 5)
+            if(multiplicador <= (90/anguloBase) - 1)
             {
-                multiplicador = multiplicador+18;
+                multiplicador = multiplicador + (anguloMaximo - (90/anguloBase) + 1);
             } else
             {
-                multiplicador = multiplicador-6;
+                multiplicador = multiplicador - (90/anguloBase);
             }
         }else
         {
-            this.SeguirLinhaLuz(125);
+            this.SeguirLinhaLuz(135);
         }
     }
     public void SeguirLinhaLuz(int forca)
@@ -71,7 +73,7 @@ public class Robo
         }
         else if (sensorLuz1 <= 50 && sensorLuz5 >= 50)
         {
-            if(multiplicador>=23)
+            if(multiplicador>=anguloMaximo)
             {
                 multiplicador=0;
                 ajustarAngulosRev(forca);
@@ -86,7 +88,7 @@ public class Robo
         {
             if(multiplicador<=0)
             {
-                multiplicador=23;
+                multiplicador=anguloMaximo;
                 ajustarAngulosRev(forca);
             }
             else{
@@ -132,7 +134,7 @@ public class Robo
     public void Virar90(int forca, string lado)
     {
         // Função para usar nas curvas de 90 com ou sem a fita verde
-        MoverPorTempo(0.67, forca);
+        MoverPorTempo(0.49, forca);
 
         if (lado == "E")
         {
@@ -171,6 +173,7 @@ public class Robo
 
         this.direcaoAngulo = bc.Compass();
     }
+
     public void PrintarLeituras(string tipo=null)
     {
         if (tipo == "Cor")
