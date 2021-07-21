@@ -33,10 +33,24 @@ public class Robo
         if(this.sensorCor2 == "VERDE")
         {
             this.Virar90(400, "D");
+            if(multiplicador >= 18)
+            {
+                multiplicador = multiplicador-18;
+            } else
+            {
+                multiplicador = multiplicador+6;
+            }
         }
         else if(this.sensorCor4 == "VERDE")
         {
             this.Virar90(400, "E");
+            if(multiplicador <= 5)
+            {
+                multiplicador = multiplicador+18;
+            } else
+            {
+                multiplicador = multiplicador-6;
+            }
         }else
         {
             this.SeguirLinhaLuz(125);
@@ -92,7 +106,7 @@ public class Robo
         {
             this.RealizarLeituras();
             this.PrintarLeituras("Luz");
-            if(direcaoAngulo < (anguloBase*multiplicador))
+            if(direcaoAngulo < (anguloBase*multiplicador) || direcaoAngulo > 359)
             {
                 bc.MoveFrontal(-forca*5, forca*5);
             } 
@@ -104,19 +118,16 @@ public class Robo
     }
      public void ajustarAngulosRev(int forca)
     {
-        while((direcaoAngulo >= (anguloBase*multiplicador)+1) || (direcaoAngulo <= (anguloBase*multiplicador)-1) || (direcaoAngulo<1))
-        {
             this.RealizarLeituras();
             bc.PrintConsole(0, $"Sensor angulo: {this.direcaoAngulo}, multiplicador: {this.multiplicador}");
             if(direcaoAngulo > (anguloBase*multiplicador))
             {
-                bc.MoveFrontal(forca*5, -forca*5);
+                bc.MoveFrontalAngles(forca*10, 15);
             } 
             else if(direcaoAngulo < (anguloBase*multiplicador))
             {
-                bc.MoveFrontal(-forca*5, forca*5);
+                bc.MoveFrontalAngles(forca*10, -15);
             }
-        }
     }
     public void Virar90(int forca, string lado)
     {
