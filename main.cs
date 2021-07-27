@@ -31,38 +31,45 @@ public class Robo
 
     public void run()
     {
-        if(this.sensorCor2 == "VERDE" || sensorLuz1 <= 10 && sensorLuz2 <= 10 && sensorLuz3 <= 10)
+        if(sensorCor2 == "VERDE" || sensorLuz1 <= 50 && sensorLuz2 <= 50 && sensorLuz3 <= 50)
         {
             
-            this.Virar90(400, "D");
+            Virar90(400, "D");
             if(multiplicador >= 360/anguloBase - (90/anguloBase) + 1)
             {
                 multiplicador = multiplicador - (anguloMaximo - (90/anguloBase) + 1);
-            } else
+            }
+            else
             {
                 multiplicador = multiplicador + (90/anguloBase);
             }
+            bc.PrintConsole(1, $" angulo multiplicador vezes angulo base {multiplicador * anguloBase} --- angulo real {bc.Compass()}, --- multiplicador {multiplicador}");
+            bc.Wait(5000);
         }
-        else if(this.sensorCor4 == "VERDE" || sensorLuz4 <= 10 && sensorLuz5 <= 10 && sensorLuz3 <= 10)
+        else if(sensorCor4 == "VERDE" || sensorLuz4 <= 50 && sensorLuz5 <= 50 && sensorLuz3 <= 50)
         {
-            this.Virar90(400, "E");
+            Virar90(400, "E");
             if(multiplicador <= (90/anguloBase) - 1)
             {
                 multiplicador = multiplicador + (anguloMaximo - (90/anguloBase) + 1);
-            } else
+            }
+            else
             {
                 multiplicador = multiplicador - (90/anguloBase);
             }
-        }else
+            bc.PrintConsole(1, $" angulo multiplicador vezes angulo base {multiplicador * anguloBase} --- angulo real {bc.Compass()}, --- multiplicador {multiplicador}");
+            bc.Wait(5000);
+        }
+        else
         {
-            this.SeguirLinhaLuz(135);
+            SeguirLinhaLuz(135);
         }
     }
     public void SeguirLinhaLuz(int forca)
     {
         if ((sensorLuz1 >= 50 && sensorLuz5 >= 50) || (sensorLuz1 <= 50 && sensorLuz5 <= 50))
         {
-           if(direcaoAngulo == (anguloBase*multiplicador)- 1)
+           if(direcaoAngulo <= (anguloBase*multiplicador) - 1 || direcaoAngulo >= (anguloBase*multiplicador) + 1)
             {
             this.ajustarAngulos(forca);
             }
@@ -184,9 +191,9 @@ public class Robo
         }
         else if (tipo == "Luz")
         {
-            bc.PrintConsole(0, $"Sensor angulo: {this.direcaoAngulo}, multiplicador: {this.multiplicador}");
-            bc.PrintConsole(1, $"Sensor 1: {this.sensorLuz1.ToString("00.00")}, Sensor 5: {this.sensorLuz5.ToString("00.00")}");
-            bc.PrintConsole(2, $"Sensor 5: {this.sensorLuz5.ToString("00.00")}, Sensor 6: {this.sensorLuz6.ToString("00.00")}");
+            bc.PrintConsole(0, $"Sensor angulo: {this.direcaoAngulo}, multiplicador: {this.multiplicador}, Angulo Ideal {this.multiplicador * anguloBase}");
+            bc.PrintConsole(1, $"Sensor 1: {this.sensorLuz1.ToString("00.00")}, Sensor 2: {this.sensorLuz2.ToString("00.00")}, Sensor 3: {this.sensorLuz3.ToString("00.00")}");
+            bc.PrintConsole(2, $"Sensor 4: {this.sensorLuz4.ToString("00.00")}, Sensor 5: {this.sensorLuz5.ToString("00.00")}, Sensor 6: {this.sensorLuz6.ToString("00.00")}");
         }
         else if (tipo == null)
         {
