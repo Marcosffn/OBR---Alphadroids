@@ -326,7 +326,6 @@ public class Robo
         bc.Wait(System.Convert.ToInt32(t));
     }
 
-
     public void RealizarLeituras()
     {
         this.sensorLuz1 = bc.Lightness(0);
@@ -345,7 +344,6 @@ public class Robo
 
         this.direcaoAngulo = bc.Compass();
     }
-
 
     public void PrintarLeituras(string tipo=null)
     {
